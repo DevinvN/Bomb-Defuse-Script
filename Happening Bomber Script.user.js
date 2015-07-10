@@ -10,7 +10,8 @@
 // ==/UserScript==
 
 // Desired amount of defused bombs
-var amount = 42;
+var amountStr = prompt("Please enter the desired amount of defused bombs", "0");
+var amount = parseInt(amountStr);
 
 // Touch event to be fired on bomb
 var e = new MouseEvent('touchstart', {
