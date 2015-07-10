@@ -10,6 +10,5 @@ Script to automate Bomb Defuse game on happening.im
 3. The script will now automatically load whenever you visit https://happening.im/
 4. Enjoy!
 
-Known issues:
-
-Red bombs will only be recognized using a specific browser height/width
+##Known issues:
+1. Red bombs will only be recognized using a specific browser height/width
