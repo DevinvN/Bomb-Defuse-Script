@@ -10,8 +10,11 @@
 // ==/UserScript==
 
 // Desired amount of defused bombs
-var amountStr = prompt("Please enter the desired amount of defused bombs", "0");
-var amount = parseInt(amountStr);
+var setAmount = 0;
+var amount = 0;
+
+//Starting
+var shown = false;
 
 // Touch event to be fired on bomb
 var e = new MouseEvent('touchstart', {
@@ -20,12 +23,45 @@ var e = new MouseEvent('touchstart', {
     'cancelable': true
 });
 
-function checkBombs(){
-	// Select all bombs
-    var x = document.querySelectorAll("main > div > .b_ > canvas");
+
+function started()
+{
+    var s = document.querySelectorAll("main > div.b_ > div.b_ > div.startButton");
+    var n = typeof s !== 'undefined' ? s.length : 0;
+    
+    console.log("Shown: "+shown+"\nAmount: "+n);
+    
+    if (shown === false && n > 0)
+    {
+        shown = true;
+    }
+    else
+    {
+        if (shown === true && n === 0)
+        {
+            shown = false;
+            return true;
+        }
+    }    
+    return false;
+}
+
+function onBombDefuse()
+{
+    // Select all bombs
+    var x = document.querySelectorAll("main > div.b_ > div.b_ > canvas");
 	// Get number of bombs
     var l = typeof x !== 'undefined' ? x.length : 0;
 	// If bombs are visible, 
+    return (l === 16);
+}
+
+function checkBombs(){
+    // Select all bombs
+    var x = document.querySelectorAll("main > div.b_ > div.b_ > canvas");
+	// Get number of bombs
+    var l = typeof x !== 'undefined' ? x.length : 0;
+	// If bombs are visible 
     if (l === 16 && amount > 0)
     {
 		// Loop over all bombs
@@ -42,5 +78,19 @@ function checkBombs(){
         }
     }
 }
-// Check bombs every 10 ms (100 times per second)
-setInterval(checkBombs, 10);
+
+function runScript()
+{
+    if (!onBombDefuse())
+        return;
+    if (started())
+    {
+        var amountStr = prompt("Please enter the desired amount of defused bombs", ""+setAmount);
+        setAmount = parseInt(amountStr);
+        amount = setAmount;
+    }    
+    checkBombs();
+}
+
+// Run script every 10 ms (100 times per second)
+setInterval(runScript, 10);
